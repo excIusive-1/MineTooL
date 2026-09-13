@@ -1,1 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Генератор Minecraft Градиента</h2>
+    
+    <label>Текст:</label>
+    <input type="text" id="mcText" placeholder="Введите ваш текст..." oninput="generateMcGradient()">
+
+    <div class="flex-gap">
+        <div>
+            <label>Начальный цвет:</label>
+            <input type="color" id="color1" value="#ff007f" onchange="generateMcGradient()">
+        </div>
+        <div>
+            <label>Конечный цвет:</label>
+            <input type="color" id="color2" value="#00f0ff" onchange="generateMcGradient()">
+        </div>
+    </div>
+
+    <label><input type="checkbox" id="boldCheck" style="width:auto;" onchange="generateMcGradient()"> Жирный текст (&l)</label>
+
+    <label style="margin-top:15px; display:block;">Предпросмотр:</label>
+    <div class="preview-box" id="mcPreview">...</div>
+
+    <label style="margin-top:15px; display:block;">Результат (HEX Код):</label>
+    <input type="text" id="mcOutput" readonly>
+    <button onclick="copyToClipboard('mcOutput')">Скопировать код</button>
+</div>
+{% endblock %}
 
