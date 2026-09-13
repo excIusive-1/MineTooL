@@ -1,1 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Калькулятор Координат (Nether / Overworld)</h2>
+    <div class="flex-gap">
+        <input type="number" id="coordX" placeholder="Координата X">
+        <input type="number" id="coordZ" placeholder="Координата Z">
+    </div>
+    <div class="flex-gap">
+        <button onclick="convertCoords('toNether')">Из Мира в Незер (/ 8)</button>
+        <button onclick="convertCoords('toOverworld')">Из Незера в Мир (* 8)</button>
+    </div>
+    <p style="margin-top: 15px;">Результат: X: <b id="resX">0</b> | Z: <b id="resZ">0</b></p>
+</div>
+
+<div class="card">
+    <h2>Калькулятор Стаков Блоков</h2>
+    <label>Общее количество блоков:</label>
+    <input type="number" id="totalBlocks" placeholder="Например: 250" oninput="calcStacks()">
+    <p style="margin-top: 10px;">Результат: <b id="stackResult">0 стаков</b></p>
+</div>
+{% endblock %}
 
