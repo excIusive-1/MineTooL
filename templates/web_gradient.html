@@ -1,29 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="card">
-    <h2>Создание CSS Градиента</h2>
+    <h2>Генератор CSS Градиента</h2>
     
     <div class="flex-gap">
         <div>
-            <label>Цвет 1:</label>
-            <input type="color" id="webC1" value="#7b2cbf" onchange="updateWebGradient()">
+            <label>Первый цвет:</label>
+            <input type="color" id="webColor1" value="#a259ff" onchange="generateWebGradient()">
         </div>
         <div>
-            <label>Цвет 2:</label>
-            <input type="color" id="webC2" value="#0d1b2a" onchange="updateWebGradient()">
-        </div>
-        <div>
-            <label>Угол (градусы):</label>
-            <input type="number" id="webAngle" value="135" onchange="updateWebGradient()">
+            <label>Второй цвет:</label>
+            <input type="color" id="webColor2" value="#6366f1" onchange="generateWebGradient()">
         </div>
     </div>
 
-    <label style="margin-top:15px; display:block;">Предпросмотр:</label>
-    <div id="webPreview" class="preview-box" style="height: 120px; transition: 0.3s;"></div>
+    <label>Угол наклона (в градусах):</label>
+    <input type="number" id="angleInput" value="90" min="0" max="360" oninput="generateWebGradient()">
 
-    <label style="margin-top:15px; display:block;">CSS Код:</label>
-    <input type="text" id="webCssCode" readonly>
-    <button onclick="copyToClipboard('webCssCode')">Скопировать CSS</button>
+    <label style="margin-top:15px; display:block;">Предпросмотр:</label>
+    <div class="preview-box" id="webPreview" style="height: 100px;"></div>
+
+    <label style="margin-top:15px; display:block;">Готовый CSS код:</label>
+    <input type="text" id="cssOutput" readonly>
+    <button onclick="copyToClipboard('cssOutput')">Скопировать CSS</button>
 </div>
 {% endblock %}
-
