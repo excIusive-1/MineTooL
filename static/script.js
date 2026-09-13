@@ -1,4 +1,4 @@
-// Переключение меню
+// Переключение мобильного меню
 function toggleMenu() {
     const nav = document.getElementById('navMenu');
     if (nav) {
@@ -6,7 +6,7 @@ function toggleMenu() {
     }
 }
 
-// Конвертация HEX в RGB
+// Вспомогательные функции цвета
 function hexToRgb(hex) {
     if (!hex) return { r: 255, g: 0, b: 127 };
     const cleanHex = hex.replace('#', '');
@@ -17,13 +17,12 @@ function hexToRgb(hex) {
     };
 }
 
-// Конвертация RGB в HEX
 function rgbToHex(r, g, b) {
     const toHex = (c) => Math.round(c).toString(16).padStart(2, '0');
     return `${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-// Генератор градиента
+// 1. Генератор Minecraft Градиента
 function generateMcGradient() {
     const textInput = document.getElementById('mcText');
     const color1Input = document.getElementById('color1');
@@ -55,7 +54,6 @@ function generateMcGradient() {
     for (let i = 0; i < length; i++) {
         const char = text[i];
 
-        // Пробелы остаются пробелами
         if (char === ' ') {
             formattedResult += ' ';
             previewHtml += '&nbsp;';
@@ -71,10 +69,8 @@ function generateMcGradient() {
         const boldTag = isBold ? '&l' : '';
         const fontWeight = isBold ? 'font-weight: bold;' : '';
 
-        // Формат Minecraft
         formattedResult += `&#${hexColor}${boldTag}${char}`;
 
-        // Превью
         const safeChar = char === '<' ? '&lt;' : char === '>' ? '&gt;' : char;
         previewHtml += `<span style="color: #${hexColor}; ${fontWeight}">${safeChar}</span>`;
     }
@@ -85,7 +81,29 @@ function generateMcGradient() {
     }
 }
 
-// Копирование в буфер
+// 2. Генератор CSS Градиента
+function generateWebGradient() {
+    const color1Input = document.getElementById('webColor1');
+    const color2Input = document.getElementById('webColor2');
+    const angleInput = document.getElementById('angleInput');
+    const cssOutput = document.getElementById('cssOutput');
+    const webPreview = document.getElementById('webPreview');
+
+    if (!color1Input || !color2Input || !cssOutput) return;
+
+    const color1 = color1Input.value;
+    const color2 = color2Input.value;
+    const angle = angleInput ? angleInput.value : 90;
+
+    const cssCode = `background: linear-gradient(${angle}deg, ${color1}, ${color2});`;
+
+    cssOutput.value = cssCode;
+    if (webPreview) {
+        webPreview.style.background = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+    }
+}
+
+// 3. Копирование в буфер обмена
 function copyToClipboard(elementId) {
     const input = document.getElementById(elementId);
     if (!input || !input.value) return;
@@ -103,7 +121,8 @@ function copyToClipboard(elementId) {
     });
 }
 
-// Автозапуск после загрузки страницы
+// Инициализация скриптов
 document.addEventListener('DOMContentLoaded', () => {
     generateMcGradient();
+    generateWebGradient();
 });
