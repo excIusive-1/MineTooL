@@ -26,12 +26,13 @@ body {
     background-attachment: fixed;
 }
 
-header {
-    display: flex;
-    justify-content: space-between; /* Разносит логотип влево, а меню вправо */
-    align-items: center;
-    width: 100%;
-    padding: 16px 20px;
+/* Шапка: расталкивает логотип влево, а меню вправо */
+.header-bar {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 14px 20px !important;
     background: rgba(11, 7, 23, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -41,25 +42,27 @@ header {
     z-index: 100;
 }
 
-/* Логотип слева без белого фона */
-.logo-container {
+/* Ссылки и логотип без белых подложек */
+.logo-link {
     display: flex;
     align-items: center;
-    background: transparent !important;
-    padding: 0;
-    margin: 0;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    text-decoration: none;
 }
 
-.logo-container img {
-    height: 38px;
+.logo-img {
+    height: 40px;
     width: auto;
     object-fit: contain;
     display: block;
     mix-blend-mode: screen;
-    filter: contrast(110%) brightness(120%);
+    filter: contrast(120%) brightness(120%);
 }
 
-/* Кнопка меню справа */
+/* Кнопка с тремя полосками строго справа */
 .menu-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--card-border);
@@ -70,7 +73,6 @@ header {
     gap: 5px;
     padding: 10px;
     transition: 0.2s ease;
-    margin-left: auto; /* Дополнительное выравнивание вправо */
 }
 
 .menu-btn:hover {
