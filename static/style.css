@@ -28,10 +28,11 @@ body {
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Разносит логотип влево, а меню вправо */
     align-items: center;
-    padding: 16px 24px;
-    background: rgba(11, 7, 23, 0.75);
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(11, 7, 23, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--card-border);
@@ -40,15 +41,13 @@ header {
     z-index: 100;
 }
 
-/* Фикс логотипа: убираем белый фон полностью */
+/* Логотип слева без белого фона */
 .logo-container {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 4px 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(162, 89, 255, 0.15);
-    mix-blend-mode: lighten; /* Магия CSS: скрывает белый фон и оставляем аккуратный градиент логотипа */
+    background: transparent !important;
+    padding: 0;
+    margin: 0;
 }
 
 .logo-container img {
@@ -56,8 +55,11 @@ header {
     width: auto;
     object-fit: contain;
     display: block;
+    mix-blend-mode: screen;
+    filter: contrast(110%) brightness(120%);
 }
 
+/* Кнопка меню справа */
 .menu-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--card-border);
@@ -68,6 +70,7 @@ header {
     gap: 5px;
     padding: 10px;
     transition: 0.2s ease;
+    margin-left: auto; /* Дополнительное выравнивание вправо */
 }
 
 .menu-btn:hover {
