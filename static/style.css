@@ -26,7 +26,7 @@ body {
     background-attachment: fixed;
 }
 
-/* Оболочка шапки */
+/* Шапка */
 .header-bar {
     width: 100% !important;
     background: rgba(11, 7, 23, 0.9);
@@ -38,36 +38,26 @@ body {
     z-index: 100;
 }
 
-/* Внутренний контейнер: жестко растягиваем элементы по левому и правому краю */
 .header-inner {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
-    padding: 12px 20px !important;
+    padding: 14px 20px !important;
 }
 
-/* Логотип строго слева */
-.logo-link {
-    display: flex !important;
-    align-items: center !important;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    text-decoration: none !important;
+/* Текстовый логотип слева */
+.brand-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #a259ff 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.logo-img {
-    height: 38px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-    mix-blend-mode: screen;
-    filter: contrast(120%) brightness(120%);
-}
-
-/* Кнопка с тремя полосками строго справа */
+/* Кнопка с 3 полосками справа */
 .menu-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--card-border);
@@ -78,7 +68,7 @@ body {
     gap: 5px;
     padding: 10px;
     transition: 0.2s ease;
-    margin-left: auto !important; /* Гарантированный прижим вправо */
+    margin-left: auto !important;
 }
 
 .menu-btn:hover {
@@ -233,4 +223,3 @@ button:active {
     display: flex;
     align-items: center;
 }
-
