@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <a href="/">
-                <img src="{{ url_for('static', filename='1789325797962.png') }}" alt="MineTool Logo">
-            </a>
-        </div>
+    <header class="header-bar">
+        <a href="/" class="logo-link">
+            <img src="{{ url_for('static', filename='1789325797962.png') }}" alt="MineTool Logo" class="logo-img">
+        </a>
+        
         <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
+
         <nav class="nav-menu" id="navMenu">
             <a href="/">Главная</a>
             <a href="/text-gradient">Minecraft Градиент</a>
@@ -36,3 +36,4 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+
