@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MineTool Toolkit</title>
+    <!-- Ванильный и прикольный современный шрифт -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <a href="/"><img src="{{ url_for('static', filename='1789325797962.png') }}" alt="MineTool Logo"></a>
+            <a href="/">
+                <img src="{{ url_for('static', filename='1789325797962.png') }}" alt="MineTool Logo">
+            </a>
         </div>
-        <button class="menu-btn" onclick="toggleMenu()">
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
             <span></span>
             <span></span>
             <span></span>
@@ -31,4 +37,6 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+
+
 
