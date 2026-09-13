@@ -1,109 +1,34 @@
- // 1. Переключение выпадающего меню
-function toggleMenu() {
-    const nav = document.getElementById('navMenu');
-    if (nav) {
-        nav.classList.toggle('active');
-    }
-}
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>Генератор Minecraft Градиента</h2>
+    
+    <label>Текст:</label>
+    <input type="text" id="mcText" placeholder="Введите ваш текст..." oninput="generateMcGradient()">
 
-// Вспомогательные функции для работы с цветом
-function hexToRgb(hex) {
-    if (!hex) return { r: 255, g: 0, b: 127 };
-    const cleanHex = hex.replace('#', '');
-    return {
-        r: parseInt(cleanHex.substring(0, 2), 16) || 0,
-        g: parseInt(cleanHex.substring(2, 4), 16) || 0,
-        b: parseInt(cleanHex.substring(4, 6), 16) || 0
-    };
-}
+    <div class="flex-gap">
+        <div>
+            <label>Начальный цвет:</label>
+            <input type="color" id="color1" value="#ff007f" onchange="generateMcGradient()">
+        </div>
+        <div>
+            <label>Конечный цвет:</label>
+            <input type="color" id="color2" value="#00f0ff" onchange="generateMcGradient()">
+        </div>
+    </div>
 
-function rgbToHex(r, g, b) {
-    const toHex = (c) => Math.round(c).toString(16).padStart(2, '0');
-    return `${toHex(r)}${toHex(g)}${toHex(b)}`;
-}
+    <label style="margin-top: 10px;">
+        <input type="checkbox" id="boldCheck" style="width:auto; display:inline-block;" onchange="generateMcGradient()"> 
+        Жирный текст (&l)
+    </label>
 
-// 2. Основная функция генерации Minecraft Градиента
-function generateMcGradient() {
-    const textInput = document.getElementById('mcText');
-    const color1Input = document.getElementById('color1');
-    const color2Input = document.getElementById('color2');
-    const boldCheck = document.getElementById('boldCheck');
-    const resultOutput = document.getElementById('mcOutput');
-    const previewBox = document.getElementById('mcPreview');
+    <label style="margin-top:15px; display:block;">Предпросмотр:</label>
+    <div class="preview-box" id="mcPreview">...</div>
 
-    if (!textInput || !resultOutput) return;
+    <label style="margin-top:15px; display:block;">Результат (HEX Код):</label>
+    <input type="text" id="mcOutput" readonly>
+    <button onclick="copyToClipboard('mcOutput')">Скопировать код</button>
+</div>
+{% endblock %}
 
-    const text = textInput.value;
-    const color1 = color1Input ? color1Input.value : '#ff007f';
-    const color2 = color2Input ? color2Input.value : '#00f0ff';
-    const isBold = boldCheck ? boldCheck.checked : false;
-
-    if (!text) {
-        resultOutput.value = '';
-        if (previewBox) previewBox.innerHTML = '...';
-        return;
-    }
-
-    const start = hexToRgb(color1);
-    const end = hexToRgb(color2);
-
-    let formattedResult = '';
-    let previewHtml = '';
-    const length = text.length;
-
-    for (let i = 0; i < length; i++) {
-        const char = text[i];
-
-        // Точная обработка пробелов: сохраняем пробел без разрыва градиента
-        if (char === ' ') {
-            formattedResult += ' ';
-            previewHtml += '&nbsp;';
-            continue;
-        }
-
-        const factor = length > 1 ? i / (length - 1) : 0;
-        const r = start.r + factor * (end.r - start.r);
-        const g = start.g + factor * (end.g - start.g);
-        const b = start.b + factor * (end.b - start.b);
-
-        const hexColor = rgbToHex(r, g, b);
-        const boldTag = isBold ? '&l' : '';
-        const fontWeight = isBold ? 'font-weight: bold;' : '';
-
-        // Код для майна: &#RRGGBB[&l]Символ
-        formattedResult += `&#${hexColor}${boldTag}${char}`;
-
-        // Отображение в предпросмотре
-        const safeChar = char === '<' ? '&lt;' : char === '>' ? '&gt;' : char;
-        previewHtml += `<span style="color: #${hexColor}; ${fontWeight}">${safeChar}</span>`;
-    }
-
-    resultOutput.value = formattedResult;
-    if (previewBox) {
-        previewBox.innerHTML = previewHtml;
-    }
-}
-
-// 3. Функция копирования в буфер обмена
-function copyToClipboard(elementId) {
-    const input = document.getElementById(elementId);
-    if (!input || !input.value) return;
-
-    input.select();
-    navigator.clipboard.writeText(input.value).then(() => {
-        const btn = event.target;
-        if (btn) {
-            const originalText = btn.innerText;
-            btn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                btn.innerText = originalText;
-            }, 2000);
-        }
-    });
-}
-
-// Инициализация первичного состояния после загрузки страницы
-document.addEventListener('DOMContentLoaded', () => {
-    generateMcGradient();
-});
             
