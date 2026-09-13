@@ -26,7 +26,6 @@ body {
     background-attachment: fixed;
 }
 
-/* Шапка */
 .header-bar {
     width: 100% !important;
     background: rgba(11, 7, 23, 0.9);
@@ -46,7 +45,6 @@ body {
     padding: 14px 20px !important;
 }
 
-/* Текстовый логотип слева */
 .brand-title {
     font-size: 1.4rem;
     font-weight: 800;
@@ -57,7 +55,6 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-/* Кнопка с 3 полосками справа */
 .menu-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--card-border);
@@ -83,7 +80,6 @@ body {
     transition: 0.3s;
 }
 
-/* Выпадающее меню */
 .nav-menu {
     position: absolute;
     top: calc(100% + 10px);
@@ -222,4 +218,4 @@ button:active {
     font-weight: 600;
     display: flex;
     align-items: center;
-    }
+}
