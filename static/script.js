@@ -1,4 +1,4 @@
-// Переключение мобильного меню
+// 1. Мобильное меню
 function toggleMenu() {
     const nav = document.getElementById('navMenu');
     if (nav) {
@@ -22,7 +22,7 @@ function rgbToHex(r, g, b) {
     return `${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-// 1. Генератор Minecraft Градиента
+// 2. Генератор Minecraft Градиента
 function generateMcGradient() {
     const textInput = document.getElementById('mcText');
     const color1Input = document.getElementById('color1');
@@ -81,7 +81,7 @@ function generateMcGradient() {
     }
 }
 
-// 2. Генератор CSS Градиента
+// 3. Генератор CSS Градиента
 function generateWebGradient() {
     const color1Input = document.getElementById('webColor1');
     const color2Input = document.getElementById('webColor2');
@@ -103,7 +103,7 @@ function generateWebGradient() {
     }
 }
 
-// 3. Калькулятор Nether Координат (Minecraft)
+// 4. Калькулятор Nether Координат
 function calculateNether(source) {
     const owX = document.getElementById('overworldX');
     const owZ = document.getElementById('overworldZ');
@@ -115,38 +115,112 @@ function calculateNether(source) {
     if (source === 'ow') {
         const x = parseFloat(owX.value);
         const z = parseFloat(owZ.value);
-
         nX.value = !isNaN(x) ? Math.floor(x / 8) : '';
         nZ.value = !isNaN(z) ? Math.floor(z / 8) : '';
     } else if (source === 'nether') {
         const x = parseFloat(nX.value);
         const z = parseFloat(nZ.value);
-
         owX.value = !isNaN(x) ? Math.floor(x * 8) : '';
         owZ.value = !isNaN(z) ? Math.floor(z * 8) : '';
     }
 }
 
-// 4. Копирование в буфер обмена
-function copyToClipboard(elementId) {
-    const input = document.getElementById(elementId);
-    if (!input || !input.value) return;
+// 5. Калькулятор Крафтов
+const craftDatabase = {
+    shield: { name: 'Щит', res: { 'Железный слиток': 1, 'Любые доски': 6 } },
+    tnt: { name: 'ТНТ', res: { 'Песок / Красный песок': 4, 'Порох': 5 } },
+    piston: { name: 'Поршень', res: { 'Доски': 3, 'Булыжник': 4, 'Железный слиток': 1, 'Редстоун': 1 } },
+    sticky_piston: { name: 'Липкий поршень', res: { 'Доски': 3, 'Булыжник': 4, 'Железный слиток': 1, 'Редстоун': 1, 'Сгусток слизи': 1 } },
+    diamond_pickaxe: { name: 'Алмазная кирка', res: { 'Алмаз': 3, 'Палка': 2 } },
+    golden_apple: { name: 'Золотое яблоко', res: { 'Яблоко': 1, 'Золотой слиток': 8 } },
+    anvil: { name: 'Наковальня', res: { 'Железный блок': 3, 'Железный слиток': 4 } },
+    repeater: { name: 'Повторитель', res: { 'Камень': 3, 'Редстоун факел': 2, 'Редстоун': 1 } },
+    comparator: { name: 'Компаратор', res: { 'Камень': 3, 'Редстоун факел': 3, 'Кварц Верхнего мира': 1 } }
+};
 
-    input.select();
-    navigator.clipboard.writeText(input.value).then(() => {
-        if (event && event.target) {
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = 'Скопировано!';
-            setTimeout(() => {
-                btn.innerText = originalText;
-            }, 2000);
-        }
-    });
+function calculateCraft() {
+    const itemKey = document.getElementById('craftItem')?.value;
+    const amountInput = document.getElementById('craftAmount')?.value;
+    const resultBox = document.getElementById('craftResult');
+
+    if (!itemKey || !resultBox) return;
+
+    const amount = Math.max(1, parseInt(amountInput) || 1);
+    const itemData = craftDatabase[itemKey];
+
+    if (!itemData) return;
+
+    let html = `<strong style="color: #a259ff;">Для крафта ${amount} шт. (${itemData.name}):</strong>`;
+    for (const [resName, count] of Object.entries(itemData.res)) {
+        const total = count * amount;
+        const stacks = Math.floor(total / 64);
+        const rem = total % 64;
+        let stackText = stacks > 0 ? ` (${stacks} ст. ${rem > 0 ? '+ ' + rem + ' шт.' : ''})` : '';
+
+        html += `<span style="font-size:0.95rem;">• <strong>${total}x</strong> ${resName}${stackText}</span>`;
+    }
+
+    resultBox.innerHTML = html;
 }
 
-// Инициализация скриптов
+// 6. Калькулятор Зельеварения
+const potionIngredients = {
+    strength: 'Огненный порошок (Blaze Powder)',
+    speed: 'Сахар (Sugar)',
+    healing: 'Somatic Сверкающий арбуз',
+    harming: 'Маринованный паучий глаз (К Зелью Лечения/Скорости)',
+    fire_res: 'Магмовый сгусток (Magma Cream)',
+    invisibility: 'Маринованный паучий глаз (К Зелью Ночного зрения)',
+    swiftness: 'Мембрана фантома (Phantom Membrane)',
+    poison: 'Паучий глаз (Spider Eye)',
+    regeneration: 'Слеза гаста (Ghast Tear)',
+    turtle_master: 'Черепаший панцирь (Turtle Shell)'
+};
+
+function calculateBrewing() {
+    const type = document.getElementById('potionType')?.value;
+    const level = document.getElementById('potionLevel')?.value;
+    const form = document.getElementById('potionForm')?.value;
+    const countInput = document.getElementById('potionCount')?.value;
+    const resultBox = document.getElementById('brewingResult');
+
+    if (!type || !resultBox) return;
+
+    const count = Math.max(1, parseInt(countInput) || 1);
+    const standsNeeded = Math.ceil(count / 3);
+    const mainIng = potionIngredients[type] || 'Основной ингредиент';
+
+    let html = `<strong style="color:#6366f1;">Рецепт на ${count} бутылочек (${standsNeeded} захода/стойки):</strong>`;
+    html += `<span>1. Колбы с водой ➔ добавить <strong>Адский нарост</strong> = Неловкое зелье (Awkward)</span>`;
+    html += `<span>2. Добавить <strong>${mainIng}</strong></span>`;
+
+    let modifierList = [];
+    if (level === 'long') modifierList.push('Редстоун (Redstone) — Увеличение времени');
+    if (level === 'strong') modifierList.push('Светящаяся пыль (Glowstone) — Усиление II');
+
+    if (form === 'splash') modifierList.push('Порох (Gunpowder) — Взрывное зелье');
+    if (form === 'lingering') {
+        modifierList.push('Порох (Gunpowder) — Взрывное зелье');
+        modifierList.push('Драконье дыхание (Dragon\'s Breath) — Оседающее зелье');
+    }
+
+    modifierList.forEach((mod, idx) => {
+        html += `<span>${idx + 3}. Добавить <strong>${mod}</strong></span>`;
+    });
+
+    html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); width:100%; margin:4px 0;">`;
+    html += `<strong style="font-size:0.88rem; color:var(--text-muted);">Расходники на ${count} колб:</strong>`;
+    html += `<span>• Колбы с водой: ${count} шт.</span>`;
+    html += `<span>• Адский нарост: ${standsNeeded} шт.</span>`;
+    html += `<span>• Огненный порошок (для варки): ${Math.ceil(standsNeeded / 20)} шт.</span>`;
+
+    resultBox.innerHTML = html;
+}
+
+// Автозапуск
 document.addEventListener('DOMContentLoaded', () => {
     generateMcGradient();
     generateWebGradient();
+    calculateCraft();
+    calculateBrewing();
 });
