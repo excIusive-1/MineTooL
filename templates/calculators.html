@@ -1,12 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="card">
-    <h2>Калькулятор координат Nether</h2>
-    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
-        Перевод координат между Обычным миром (Overworld) и Незером (Nether).
-    </p>
-
-    <h3>Обычный мир ➔ Nether</h3>
+    <h2>🗺️ Nether Координаты</h2>
     <div class="flex-gap">
         <div>
             <label>Overworld X:</label>
@@ -17,9 +12,7 @@
             <input type="number" id="overworldZ" placeholder="0" oninput="calculateNether('ow')">
         </div>
     </div>
-
-    <h3>Nether ➔ Обычный мир</h3>
-    <div class="flex-gap">
+    <div class="flex-gap" style="margin-top: 10px;">
         <div>
             <label>Nether X:</label>
             <input type="number" id="netherX" placeholder="0" oninput="calculateNether('nether')">
@@ -29,5 +22,84 @@
             <input type="number" id="netherZ" placeholder="0" oninput="calculateNether('nether')">
         </div>
     </div>
+</div>
+
+<div class="card">
+    <h2>🛠️ Калькулятор Крафтов и Ресурсов</h2>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 15px;">
+        Укажи предмет и количество, чтобы узнать суммарные базовые ресурсы.
+    </p>
+
+    <div class="flex-gap">
+        <div style="flex: 2;">
+            <label>Предмет:</label>
+
+```html
+            <select id="craftItem" onchange="calculateCraft()">
+                <option value="shield">Щит</option>
+                <option value="tnt">ТНТ (Динамит)</option>
+                <option value="piston">Поршень</option>
+                <option value="sticky_piston">Липкий поршень</option>
+                <option value="diamond_pickaxe">Алмазная кирка</option>
+                <option value="golden_apple">Золотое яблоко</option>
+                <option value="anvil">Наковальня</option>
+                <option value="repeater">Редстоуновый повторитель</option>
+                <option value="comparator">Редстоуновый компаратор</option>
+            </select>
+        </div>
+        <div style="flex: 1;">
+            <label>Количество:</label>
+            <input type="number" id="craftAmount" value="1" min="1" max="640" oninput="calculateCraft()">
+        </div>
+    </div>
+
+    <label style="margin-top: 15px; display: block;">Необходимые ресурсы:</label>
+    <div class="preview-box" id="craftResult" style="flex-direction: column; align-items: flex-start; gap: 6px;">...</div>
+</div>
+
+<div class="card">
+    <h2>🧪 Калькулятор Зельеварения</h2>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 15px;">
+        Выберите желаемый эффект, усиление и форму зелья.
+    </p>
+
+    <label>Эффект зелья:</label>
+    <select id="potionType" onchange="calculateBrewing()">
+        <option value="strength">Зелье Силы</option>
+        <option value="speed">Зелье Скорости</option>
+        <option value="healing">Зелье Лечения (Мгновенный урон / Лечение)</option>
+        <option value="harming">Зелье Урона</option>
+        <option value="fire_res">Зелье Огнестойкости</option>
+        <option value="invisibility">Зелье Невидимости</option>
+        <option value="swiftness">Зелье Прыгучести</option>
+        <option value="poison">Зелье Отравления</option>
+        <option value="regeneration">Зелье Регенерации</option>
+        <option value="turtle_master">Зелье Черепашьего панциря</option>
+    </select>
+
+    <div class="flex-gap" style="margin-top: 10px;">
+        <div style="flex: 1;">
+            <label>Уровень / Длительность:</label>
+            <select id="potionLevel" onchange="calculateBrewing()">
+                <option value="base">Обычное (I)</option>
+                <option value="long">Удлинённое (II длительность)</option>
+                <option value="strong">Усиленное (II уровень)</option>
+            </select>
+        </div>
+        <div style="flex: 1;">
+            <label>Форма зелья:</label>
+            <select id="potionForm" onchange="calculateBrewing()">
+                <option value="normal">Обычное (Пить)</option>
+                <option value="splash">Взрывное (Splash)</option>
+                <option value="lingering">Оседающее (Туманное / Lingering)</option>
+            </select>
+        </div>
+    </div>
+
+    <label style="margin-top: 10px;">Количество зелий (бутылочек):</label>
+    <input type="number" id="potionCount" value="3" min="1" max="99" oninput="calculateBrewing()">
+
+    <label style="margin-top: 15px; display: block;">Ингредиенты и порядок варки:</label>
+    <div class="preview-box" id="brewingResult" style="flex-direction: column; align-items: flex-start; gap: 8px;">...</div>
 </div>
 {% endblock %}
