@@ -1,4 +1,4 @@
-// 1. Мобильное меню
+// 1. Переключение мобильного меню
 function toggleMenu() {
     const nav = document.getElementById('navMenu');
     if (nav) {
@@ -6,7 +6,7 @@ function toggleMenu() {
     }
 }
 
-// Вспомогательные функции цвета
+// 2. Вспомогательные функции цвета (HEX / RGB)
 function hexToRgb(hex) {
     if (!hex) return { r: 255, g: 0, b: 127 };
     const cleanHex = hex.replace('#', '');
@@ -22,7 +22,7 @@ function rgbToHex(r, g, b) {
     return `${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-// 2. Генератор Minecraft Градиента
+// 3. Генератор Minecraft Градиента
 function generateMcGradient() {
     const textInput = document.getElementById('mcText');
     const color1Input = document.getElementById('color1');
@@ -81,7 +81,7 @@ function generateMcGradient() {
     }
 }
 
-// 3. Генератор CSS Градиента
+// 4. Генератор CSS Градиента
 function generateWebGradient() {
     const color1Input = document.getElementById('webColor1');
     const color2Input = document.getElementById('webColor2');
@@ -103,7 +103,7 @@ function generateWebGradient() {
     }
 }
 
-// 4. Калькулятор Nether Координат
+// 5. Калькулятор Nether Координат
 function calculateNether(source) {
     const owX = document.getElementById('overworldX');
     const owZ = document.getElementById('overworldZ');
@@ -125,17 +125,57 @@ function calculateNether(source) {
     }
 }
 
-// 5. Калькулятор Крафтов
+// 6. Огромная база Крафтов (Crafting Database)
 const craftDatabase = {
-    shield: { name: 'Щит', res: { 'Железный слиток': 1, 'Любые доски': 6 } },
-    tnt: { name: 'ТНТ', res: { 'Песок / Красный песок': 4, 'Порох': 5 } },
-    piston: { name: 'Поршень', res: { 'Доски': 3, 'Булыжник': 4, 'Железный слиток': 1, 'Редстоун': 1 } },
-    sticky_piston: { name: 'Липкий поршень', res: { 'Доски': 3, 'Булыжник': 4, 'Железный слиток': 1, 'Редстоун': 1, 'Сгусток слизи': 1 } },
-    diamond_pickaxe: { name: 'Алмазная кирка', res: { 'Алмаз': 3, 'Палка': 2 } },
-    golden_apple: { name: 'Золотое яблоко', res: { 'Яблоко': 1, 'Золотой слиток': 8 } },
-    anvil: { name: 'Наковальня', res: { 'Железный блок': 3, 'Железный слиток': 4 } },
-    repeater: { name: 'Повторитель', res: { 'Камень': 3, 'Редстоун факел': 2, 'Редстоун': 1 } },
-    comparator: { name: 'Компаратор', res: { 'Камень': 3, 'Редстоун факел': 3, 'Кварц Верхнего мира': 1 } }
+    // Оружие и инструменты
+    diamond_sword: { name: 'Алмазный меч', yield: 1, res: { 'Алмаз': 2, 'Палка': 1 } },
+    diamond_pickaxe: { name: 'Алмазная кирка', yield: 1, res: { 'Алмаз': 3, 'Палка': 2 } },
+    diamond_axe: { name: 'Алмазный топор', yield: 1, res: { 'Алмаз': 3, 'Палка': 2 } },
+    diamond_shovel: { name: 'Алмазная лопата', yield: 1, res: { 'Алмаз': 1, 'Палка': 2 } },
+    shield: { name: 'Щит', yield: 1, res: { 'Железный слиток': 1, 'Любые доски': 6 } },
+    bow: { name: 'Лук', yield: 1, res: { 'Палка': 3, 'Нить': 3 } },
+    crossbow: { name: 'Арбалет', yield: 1, res: { 'Палка': 3, 'Железный слиток': 1, 'Нить': 2, 'Натяжной датчик': 1 } },
+    arrow: { name: 'Стрела', yield: 4, res: { 'Кремень': 1, 'Палка': 1, 'Перо': 1 } },
+    fishing_rod: { name: 'Удочка', yield: 1, res: { 'Палка': 3, 'Нить': 2 } },
+
+    // Броня
+    diamond_helmet: { name: 'Алмазный шлем', yield: 1, res: { 'Алмаз': 5 } },
+    diamond_chestplate: { name: 'Алмазный нагрудник', yield: 1, res: { 'Алмаз': 8 } },
+    diamond_leggings: { name: 'Алмазные поножи', yield: 1, res: { 'Алмаз': 7 } },
+    diamond_boots: { name: 'Алмазные ботинки', yield: 1, res: { 'Алмаз': 4 } },
+    iron_chestplate: { name: 'Железный нагрудник', yield: 1, res: { 'Железный слиток': 8 } },
+    turtle_helmet: { name: 'Черепаший панцирь', yield: 1, res: { 'Щиток черепахи': 5 } },
+
+    // Редстоун и механизмы
+    piston: { name: 'Поршень', yield: 1, res: { 'Доски': 3, 'Булыжник': 4, 'Железный слиток': 1, 'Редстоун': 1 } },
+    sticky_piston: { name: 'Липкий поршень', yield: 1, res: { 'Доски': 3, 'Булыжник': 4, 'Железный слиток': 1, 'Редстоун': 1, 'Сгусток слизи': 1 } },
+    dispenser: { name: 'Раздатчик', yield: 1, res: { 'Булыжник': 7, 'Лук': 1, 'Редстоун': 1 } },
+    dropper: { name: 'Выбрасыватель', yield: 1, res: { 'Булыжник': 7, 'Редстоун': 1 } },
+    repeater: { name: 'Повторитель', yield: 1, res: { 'Камень': 3, 'Редстоун факел': 2, 'Редстоун': 1 } },
+    comparator: { name: 'Компаратор', yield: 1, res: { 'Камень': 3, 'Редстоун факел': 3, 'Кварц Нижнего мира': 1 } },
+    observer: { name: 'Наблюдатель', yield: 1, res: { 'Булыжник': 6, 'Кварц Нижнего мира': 1, 'Редстоун': 2 } },
+    hopper: { name: 'Воронка', yield: 1, res: { 'Железный слиток': 5, 'Сундук': 1 } },
+    redstone_torch: { name: 'Редстоун факел', yield: 1, res: { 'Редстоун': 1, 'Палка': 1 } },
+    tnt: { name: 'ТНТ (Динамит)', yield: 1, res: { 'Песок / Красный песок': 4, 'Порох': 5 } },
+
+    // Блоки и Мебель
+    chest: { name: 'Сундук', yield: 1, res: { 'Доски': 8 } },
+    ender_chest: { name: 'Сундук Эндера', yield: 1, res: { 'Обсидиан': 8, 'Око Эндера': 1 } },
+    barrel: { name: 'Бочка', yield: 1, res: { 'Доски': 6, 'Деревянная плита': 2 } },
+    crafting_table: { name: 'Верстак', yield: 1, res: { 'Доски': 4 } },
+    furnace: { name: 'Печь', yield: 1, res: { 'Булыжник': 8 } },
+    anvil: { name: 'Наковальня', yield: 1, res: { 'Железный блок': 3, 'Железный слиток': 4 } },
+    bookshelf: { name: 'Книжный шкаф', yield: 1, res: { 'Доски': 6, 'Книга': 3 } },
+    beacon: { name: 'Маяк', yield: 1, res: { 'Стекло': 5, 'Звезда Нижнего мира': 1, 'Обсидиан': 3 } },
+    respawn_anchor: { name: 'Якорь возрождения', yield: 1, res: { 'Плачущий обсидиан': 6, 'Светокамень': 3 } },
+
+    // Еда и Предметы
+    golden_apple: { name: 'Золотое яблоко', yield: 1, res: { 'Яблоко': 1, 'Золотой слиток': 8 } },
+    enchanted_golden_apple: { name: 'Зачарованное золотое яблоко (1.8)', yield: 1, res: { 'Яблоко': 1, 'Золотой блок': 8 } },
+    golden_carrot: { name: 'Золотая морковь', yield: 1, res: { 'Морковь': 1, 'Кусочек золота': 8 } },
+    glistering_melon: { name: 'Сверкающий ломтик арбуза', yield: 1, res: { 'Ломтик арбуза': 1, 'Кусочек золота': 8 } },
+    eye_of_ender: { name: 'Око Эндера', yield: 1, res: { 'Жемчуг Эндера': 1, 'Огненный порошок': 1 } },
+    firework_rocket: { name: 'Фейерверк', yield: 3, res: { 'Порох': 1, 'Бумага': 1 } }
 };
 
 function calculateCraft() {
@@ -145,36 +185,49 @@ function calculateCraft() {
 
     if (!itemKey || !resultBox) return;
 
-    const amount = Math.max(1, parseInt(amountInput) || 1);
+    const targetAmount = Math.max(1, parseInt(amountInput) || 1);
     const itemData = craftDatabase[itemKey];
 
     if (!itemData) return;
 
-    let html = `<strong style="color: #a259ff;">Для крафта ${amount} шт. (${itemData.name}):</strong>`;
-    for (const [resName, count] of Object.entries(itemData.res)) {
-        const total = count * amount;
-        const stacks = Math.floor(total / 64);
-        const rem = total % 64;
-        let stackText = stacks > 0 ? ` (${stacks} ст. ${rem > 0 ? '+ ' + rem + ' шт.' : ''})` : '';
+    const craftSets = Math.ceil(targetAmount / itemData.yield);
+    const totalYield = craftSets * itemData.yield;
 
-        html += `<span style="font-size:0.95rem;">• <strong>${total}x</strong> ${resName}${stackText}</span>`;
+    let html = `<strong style="color: #a259ff;">Для получения ${totalYield} шт. (${itemData.name}):</strong>`;
+
+    for (const [resName, count] of Object.entries(itemData.res)) {
+        const totalNeeded = count * craftSets;
+        const stacks = Math.floor(totalNeeded / 64);
+        const remainder = totalNeeded % 64;
+
+        let stackStr = '';
+        if (stacks > 0) {
+            stackStr = ` <span style="color:var(--text-muted); font-size:0.85rem;">(${stacks} ст. ${remainder > 0 ? '+ ' + remainder + ' шт.' : ''})</span>`;
+        }
+
+        html += `<span style="font-size:0.95rem;">• <strong>${totalNeeded}x</strong> ${resName}${stackStr}</span>`;
     }
 
     resultBox.innerHTML = html;
 }
 
-// 6. Калькулятор Зельеварения
-const potionIngredients = {
-    strength: 'Огненный порошок (Blaze Powder)',
-    speed: 'Сахар (Sugar)',
-    healing: 'Somatic Сверкающий арбуз',
-    harming: 'Маринованный паучий глаз (К Зелью Лечения/Скорости)',
-    fire_res: 'Магмовый сгусток (Magma Cream)',
-    invisibility: 'Маринованный паучий глаз (К Зелью Ночного зрения)',
-    swiftness: 'Мембрана фантома (Phantom Membrane)',
-    poison: 'Паучий глаз (Spider Eye)',
-    regeneration: 'Слеза гаста (Ghast Tear)',
-    turtle_master: 'Черепаший панцирь (Turtle Shell)'
+// 7. Полный База Зельеварения (All Potions & Base Chains)
+const potionRecipes = {
+    strength: { name: 'Зелье Силы', ing: 'Огненный порошок (Blaze Powder)', base: 'awkward' },
+    speed: { name: 'Зелье Скорости', ing: 'Сахар (Sugar)', base: 'awkward' },
+    healing: { name: 'Зелье Лечения', ing: 'Сверкающий ломтик арбуза', base: 'awkward' },
+    harming: { name: 'Зелье Урона', ing: 'Маринованный паучий глаз', base: 'healing' },
+    fire_res: { name: 'Зелье Огнестойкости', ing: 'Магмовый сгусток (Magma Cream)', base: 'awkward' },
+    night_vision: { name: 'Зелье Ночного зрения', ing: 'Золотая морковь (Golden Carrot)', base: 'awkward' },
+    invisibility: { name: 'Зелье Невидимости', ing: 'Маринованный паучий глаз', base: 'night_vision' },
+    swiftness: { name: 'Зелье Прыгучести', ing: 'Лапка кролика (Rabbit\'s Foot)', base: 'awkward' },
+    slowness: { name: 'Зелье Замедления', ing: 'Маринованный паучий глаз', base: 'swiftness' },
+    poison: { name: 'Зелье Отравления', ing: 'Паучий глаз (Spider Eye)', base: 'awkward' },
+    regeneration: { name: 'Зелье Регенерации', ing: 'Слеза гаста (Ghast Tear)', base: 'awkward' },
+    water_breathing: { name: 'Зелье Водного дыхания', ing: 'Иглобрюх (Pufferfish)', base: 'awkward' },
+    turtle_master: { name: 'Зелье Черепашьего панциря', ing: 'Черепаший панцирь', base: 'awkward' },
+    slow_falling: { name: 'Зелье Плавного падения', ing: 'Мембрана фантома (Phantom Membrane)', base: 'awkward' },
+    weakness: { name: 'Зелье Слабости', ing: 'Маринованный паучий глаз', base: 'water' }
 };
 
 function calculateBrewing() {
@@ -186,35 +239,98 @@ function calculateBrewing() {
 
     if (!type || !resultBox) return;
 
-    const count = Math.max(1, parseInt(countInput) || 1);
-    const standsNeeded = Math.ceil(count / 3);
-    const mainIng = potionIngredients[type] || 'Основной ингредиент';
+    const totalBottles = Math.max(1, parseInt(countInput) || 1);
+    const brewingRounds = Math.ceil(totalBottles / 3); // 1 варка = 3 бутылочки
 
-    let html = `<strong style="color:#6366f1;">Рецепт на ${count} бутылочек (${standsNeeded} захода/стойки):</strong>`;
-    html += `<span>1. Колбы с водой ➔ добавить <strong>Адский нарост</strong> = Неловкое зелье (Awkward)</span>`;
-    html += `<span>2. Добавить <strong>${mainIng}</strong></span>`;
+    const potion = potionRecipes[type];
+    if (!potion) return;
 
-    let modifierList = [];
-    if (level === 'long') modifierList.push('Редстоун (Redstone) — Увеличение времени');
-    if (level === 'strong') modifierList.push('Светящаяся пыль (Glowstone) — Усиление II');
+    let steps = [];
+    let requiredIngs = {
+        'Колба с водой': totalBottles
+    };
 
-    if (form === 'splash') modifierList.push('Порох (Gunpowder) — Взрывное зелье');
-    if (form === 'lingering') {
-        modifierList.push('Порох (Gunpowder) — Взрывное зелье');
-        modifierList.push('Драконье дыхание (Dragon\'s Breath) — Оседающее зелье');
+    const addIng = (name, amount) => {
+        requiredIngs[name] = (requiredIngs[name] || 0) + amount;
+    };
+
+    // Строим пошаговый порядок варки
+    let stepNumber = 1;
+    steps.push(`${stepNumber++}. Залейте <strong>${totalBottles} колб(ы) водой</strong> в варочную стойку.`);
+
+    if (potion.base === 'water') {
+        steps.push(`${stepNumber++}. Добавьте <strong>${potion.ing}</strong> напрямую в воду ➔ получается <em>Зелье Слабости</em>.`);
+        addIng(potion.ing, brewingRounds);
+    } else {
+        steps.push(`${stepNumber++}. Добавьте <strong>Адский нарост (Nether Wart)</strong> ➔ получается <em>Грубое зелье (Awkward Potion)</em>.`);
+        addIng('Адский нарост', brewingRounds);
+
+        if (potion.base !== 'awkward') {
+            const basePotion = potionRecipes[potion.base];
+            steps.push(`${stepNumber++}. Добавьте <strong>${basePotion.ing}</strong> ➔ получается <em>${basePotion.name}</em>.`);
+            addIng(basePotion.ing, brewingRounds);
+        }
+
+        steps.push(`${stepNumber++}. Добавьте <strong>${potion.ing}</strong> ➔ получается <em>${potion.name}</em>.`);
+        addIng(potion.ing, brewingRounds);
     }
 
-    modifierList.forEach((mod, idx) => {
-        html += `<span>${idx + 3}. Добавить <strong>${mod}</strong></span>`;
+    // Модификаторы уровня/длительности
+    if (level === 'long') {
+        steps.push(`${stepNumber++}. Добавьте <strong>Редстоун (Redstone)</strong> ➔ увеличение времени действия.`);
+        addIng('Редстоун', brewingRounds);
+    } else if (level === 'strong') {
+        steps.push(`${stepNumber++}. Добавьте <strong>Светящуюся пыль (Glowstone Dust)</strong> ➔ усиливает до II уровня.`);
+        addIng('Светящаяся пыль', brewingRounds);
+    }
+
+    // Модификаторы формы
+    if (form === 'splash') {
+        steps.push(`${stepNumber++}. Добавьте <strong>Порох (Gunpowder)</strong> ➔ делает зелье Взрывным (Splash).`);
+        addIng('Порох', brewingRounds);
+    } else if (form === 'lingering') {
+        steps.push(`${stepNumber++}. Добавьте <strong>Порох (Gunpowder)</strong> ➔ делает зелье Взрывным (Splash).`);
+        steps.push(`${stepNumber++}. Добавьте <strong>Драконье дыхание (Dragon's Breath)</strong> ➔ делает зелье Оседающим (Lingering).`);
+        addIng('Порох', brewingRounds);
+        addIng('Драконье дыхание', brewingRounds);
+    }
+
+    // Топливо (1 Огненный порошок хватает на 20 варок)
+    const blazeFuel = Math.ceil(brewingRounds / 20);
+    addIng('Огненный порошок (для топлива)', blazeFuel);
+
+    // Отрисовка
+    let html = `<strong style="color:#6366f1;">Инструкция на ${totalBottles} колб (${brewingRounds} заходов варки):</strong>`;
+    steps.forEach(step => {
+        html += `<span style="font-size:0.92rem;">${step}</span>`;
     });
 
-    html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); width:100%; margin:4px 0;">`;
-    html += `<strong style="font-size:0.88rem; color:var(--text-muted);">Расходники на ${count} колб:</strong>`;
-    html += `<span>• Колбы с водой: ${count} шт.</span>`;
-    html += `<span>• Адский нарост: ${standsNeeded} шт.</span>`;
-    html += `<span>• Огненный порошок (для варки): ${Math.ceil(standsNeeded / 20)} шт.</span>`;
+    html += `<hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); width:100%; margin:6px 0;">`;
+    html += `<strong style="font-size:0.88rem; color:var(--text-muted);">Итого ингредиентов:</strong>`;
+    
+    for (const [ingName, count] of Object.entries(requiredIngs)) {
+        html += `<span style="font-size:0.9rem;">• <strong>${count}x</strong> ${ingName}</span>`;
+    }
 
     resultBox.innerHTML = html;
+}
+
+// 8. Копирование в буфер
+function copyToClipboard(elementId) {
+    const input = document.getElementById(elementId);
+    if (!input || !input.value) return;
+
+    input.select();
+    navigator.clipboard.writeText(input.value).then(() => {
+        if (event && event.target) {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = 'Скопировано!';
+            setTimeout(() => {
+                btn.innerText = originalText;
+            }, 2000);
+        }
+    });
 }
 
 // Автозапуск
