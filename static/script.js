@@ -103,7 +103,31 @@ function generateWebGradient() {
     }
 }
 
-// 3. Копирование в буфер обмена
+// 3. Калькулятор Nether Координат (Minecraft)
+function calculateNether(source) {
+    const owX = document.getElementById('overworldX');
+    const owZ = document.getElementById('overworldZ');
+    const nX = document.getElementById('netherX');
+    const nZ = document.getElementById('netherZ');
+
+    if (!owX || !owZ || !nX || !nZ) return;
+
+    if (source === 'ow') {
+        const x = parseFloat(owX.value);
+        const z = parseFloat(owZ.value);
+
+        nX.value = !isNaN(x) ? Math.floor(x / 8) : '';
+        nZ.value = !isNaN(z) ? Math.floor(z / 8) : '';
+    } else if (source === 'nether') {
+        const x = parseFloat(nX.value);
+        const z = parseFloat(nZ.value);
+
+        owX.value = !isNaN(x) ? Math.floor(x * 8) : '';
+        owZ.value = !isNaN(z) ? Math.floor(z * 8) : '';
+    }
+}
+
+// 4. Копирование в буфер обмена
 function copyToClipboard(elementId) {
     const input = document.getElementById(elementId);
     if (!input || !input.value) return;
