@@ -339,4 +339,94 @@ document.addEventListener('DOMContentLoaded', () => {
     generateWebGradient();
     calculateCraft();
     calculateBrewing();
+    calculatePvpHits();
 });
+// Advanced PvP Damage & Hit Counter Calculator
+function calculatePvpHits() {
+    const weapon = document.getElementById('pvpWeapon')?.value;
+    const sharp = parseInt(document.getElementById('pvpSharpness')?.value || 0);
+    const isCrit = document.getElementById('pvpCrit')?.checked;
+    const isSat = document.getElementById('pvpSat')?.checked;
+    
+    const isSwap = document.getElementById('pvpSwap')?.checked;
+    const breach = parseInt(document.getElementById('pvpBreach')?.value || 0);
+
+    const swapBlock = document.getElementById('swapSettings');
+    if (swapBlock) swapBlock.style.display = isSwap ? 'block' : 'none';
+
+    // Таблица защиты брони (Armor, Toughness)
+    const armorStats = {
+        none: { armor: 0, toughness: 0 },
+        iron: { armor: 2, toughness: 0 },
+        diamond: { armor: 3, toughness: 2 },
+        netherite: { armor: 3, toughness: 3 }
+    };
+
+    // Базовый урон оружия
+    let baseDmg = 8;
+    if (weapon === 'diamond_sword') baseDmg = 7;
+    if (weapon === 'netherite_axe') baseDmg = 10;
+    if (weapon === 'mace') baseDmg = 6;
+
+    // Острота: I = +1, каждые следующие +0.5
+    let sharpDmg = sharp > 0 ? 0.5 * sharp + 0.5 : 0;
+    let totalBase = baseDmg + sharpDmg;
+
+    // Крит (x1.5 к урону)
+    if (isCrit) totalBase *= 1.5;
+
+    // Сбор брони целями
+    const hType = armorStats[document.getElementById('helmType')?.value || 'none'];
+    const cType = armorStats[document.getElementById('chestType')?.value || 'none'];
+    const lType = armorStats[document.getElementById('legType')?.value || 'none'];
+    const bType = armorStats[document.getElementById('bootType')?.value || 'none'];
+
+    const armorValues = {
+        helm: hType.armor,
+        chest: document.getElementById('chestType')?.value === 'iron' ? 6 : (document.getElementById('chestType')?.value === 'none' ? 0 : 8),
+        leg: document.getElementById('legType')?.value === 'iron' ? 5 : (document.getElementById('legType')?.value === 'none' ? 0 : 6),
+        boot: bType.armor
+    };
+    let totalArmor = armorValues.helm + armorValues.chest + armorValues.leg + armorValues.boot;
+    let totalToughness = hType.toughness + cType.toughness + lType.toughness + bType.toughness;
+
+    // Учёт Breach (каждый уровень урезает 15% брони)
+    if (isSwap && breach > 0) {
+        let breachReduction = breach * 0.15;
+        totalArmor = totalArmor * (1 - breachReduction);
+    }
+
+    // Формула поглощения брони
+    let armorDefense = Math.max(totalArmor / 5, totalArmor - totalBase / (2 + totalToughness / 4));
+    armorDefense = Math.min(20, Math.max(0, armorDefense));
+    let damageAfterArmor = totalBase * (1 - armorDefense / 25);
+
+    // Учёт зачарования Защита (Protection I-V)
+    let p1 = parseInt(document.getElementById('helmProt')?.value || 0);
+    let p2 = parseInt(document.getElementById('chestProt')?.value || 0);
+    let p3 = parseInt(document.getElementById('legProt')?.value || 0);
+    let p4 = parseInt(document.getElementById('bootProt')?.value || 0);
+    let totalEPF = Math.min(20, p1 + p2 + p3 + p4);
+
+    let finalDamagePerHit = damageAfterArmor * (1 - (totalEPF * 0.04));
+
+    // Насыщение (Saturation regen)
+    let effectiveDmg = finalDamagePerHit;
+    if (isSat) {
+        effectiveDmg = Math.max(0.5, finalDamagePerHit - 0.7);
+    }
+
+    let hitsToKill = Math.ceil(20 / effectiveDmg);
+
+    const resultBox = document.getElementById('pvpResult');
+    if (resultBox) {
+        resultBox.innerHTML = `
+            <strong style="color: #a259ff; font-size: 1.1rem;">Ударов для убийства: ${hitsToKill} hit(s)</strong>
+            <span>• Урон до брони: <strong>${totalBase.toFixed(1)} HP</strong> (${(totalBase/2).toFixed(1)} сердец)</span>
+            <span>• Итоговый урон за 1 удар: <strong style="color:#00f0ff;">${finalDamagePerHit.toFixed(2)} HP</strong></span>
+            <span>• Защита брони: <strong>${totalArmor.toFixed(1)} Armor</strong> / EPF Чаров: <strong>${totalEPF}/20</strong></span>
+            ${isSwap ? `<span style="color:#ff007f;">• Пробитие Breach ${breach}: Броня урезана на ${breach * 15}%</span>` : ''}
+            ${isSat ? `<span>• Учтено насыщение: враг восстанавливает здоровье между хитами</span>` : ''}
+        `;
+    }
+}
