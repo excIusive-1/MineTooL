@@ -146,4 +146,104 @@
     <label style="margin-top: 15px; display: block;">Инструкция по варке и ингредиенты:</label>
     <div class="preview-box" id="brewingResult" style="flex-direction: column; align-items: flex-start; gap: 8px;">...</div>
 </div>
+<div class="card">
+    <h2>⚔️ Advanced PvP Калькулятор Урона и Ударов</h2>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 15px;">
+        Расчёт ударов до убийства с учётом кастомных чаров, атрибут-свапа булавы и насыщения.
+    </p>
+
+    <!-- Выбор атаки -->
+    <h3 style="font-size: 1rem; color: #a259ff; margin-bottom: 8px;">1. Параметры Атаки</h3>
+    <div class="flex-gap">
+        <div style="flex: 1;">
+            <label>Оружие в руке:</label>
+            <select id="pvpWeapon" onchange="calculatePvpHits()">
+                <option value="netherite_sword">Незеритовый меч (8 базового)</option>
+                <option value="diamond_sword">Алмазный меч (7 базового)</option>
+                <option value="netherite_axe">Незеритовый топор (10 базового)</option>
+                <option value="mace">Булава (6 базового)</option>
+            </select>
+        </div>
+        <div style="flex: 1;">
+            <label>Острота (Sharpness):</label>
+            <input type="number" id="pvpSharpness" value="5" min="0" max="7" oninput="calculatePvpHits()">
+        </div>
+    </div>
+
+    <div class="flex-gap" style="margin-top: 10px;">
+        <div style="flex: 1;">
+            <label>
+                <input type="checkbox" id="pvpCrit" onchange="calculatePvpHits()" checked> Критический удар (x1.5)
+            </label>
+        </div>
+        <div style="flex: 1;">
+            <label>
+                <input type="checkbox" id="pvpSat" onchange="calculatePvpHits()"> Насыщен / Full Saturation (Быстрый реген)
+            </label>
+        </div>
+    </div>
+
+    <!-- Атрибут Свап -->
+    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+        <label>
+            <input type="checkbox" id="pvpSwap" onchange="calculatePvpHits()"> **Attribute Swap с булавой**
+        </label>
+        <div id="swapSettings" style="display: none; margin-top: 8px;">
+            <label>Уровень Пробития (Breach):</label>
+            <input type="number" id="pvpBreach" value="4" min="1" max="4" oninput="calculatePvpHits()">
+        </div>
+    </div>
+
+    <!-- Настройка Брони -->
+    <h3 style="font-size: 1rem; color: #6366f1; margin-top: 20px; margin-bottom: 8px;">2. Броня Цели (0-20 HP)</h3>
+    <div class="flex-gap">
+        <div>
+            <label>Шлем:</label>
+            <select id="helmType" onchange="calculatePvpHits()">
+                <option value="none">Нет (0)</option>
+                <option value="iron">Железо (2)</option>
+                <option value="diamond">Алмаз (3)</option>
+                <option value="netherite" selected>Незерит (3)</option>
+            </select>
+            <input type="number" id="helmProt" value="4" min="0" max="5" placeholder="Prot" oninput="calculatePvpHits()">
+        </div>
+        <div>
+            <label>Нагрудник:</label>
+            <select id="chestType" onchange="calculatePvpHits()">
+                <option value="none">Нет (0)</option>
+                <option value="iron">Железо (6)</option>
+                <option value="diamond">Алмаз (8)</option>
+                <option value="netherite" selected>Незерит (8)</option>
+            </select>
+            <input type="number" id="chestProt" value="4" min="0" max="5" placeholder="Prot" oninput="calculatePvpHits()">
+        </div>
+    </div>
+
+    <div class="flex-gap" style="margin-top: 10px;">
+        <div>
+            <label>Поножи:</label>
+            <select id="legType" onchange="calculatePvpHits()">
+                <option value="none">Нет (0)</option>
+                <option value="iron">Железо (5)</option>
+                <option value="diamond">Алмаз (6)</option>
+                <option value="netherite" selected>Незерит (6)</option>
+            </select>
+            <input type="number" id="legProt" value="4" min="0" max="5" placeholder="Prot" oninput="calculatePvpHits()">
+        </div>
+        <div>
+            <label>Ботинки:</label>
+            <select id="bootType" onchange="calculatePvpHits()">
+                <option value="none">Нет (0)</option>
+                <option value="iron">Железо (2)</option>
+                <option value="diamond">Алмаз (3)</option>
+                <option value="netherite" selected>Незерит (3)</option>
+            </select>
+            <input type="number" id="bootProt" value="4" min="0" max="5" placeholder="Prot" oninput="calculatePvpHits()">
+        </div>
+    </div>
+
+    <!-- Результат -->
+    <label style="margin-top: 15px; display: block;">Результат расчёта:</label>
+    <div class="preview-box" id="pvpResult" style="flex-direction: column; align-items: flex-start; gap: 6px;">...</div>
+</div>
 {% endblock %}
